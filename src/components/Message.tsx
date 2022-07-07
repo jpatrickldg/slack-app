@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from 'react'
 
-type UserData = {
+type NumberID = {
     id: number
 }
 
@@ -9,13 +9,14 @@ type Channel = {
     name: string
 }
 
-// type Message = {
-//     id: number
-//     message: string
-// }
+type MessageData = {
+    body: string
+    id: number
+    receiver: NumberID
+}
 
 type User = {
-    data?: UserData
+    data?: NumberID
     headers?: Headers
 }
 
@@ -31,11 +32,12 @@ interface Props {
 
 const Message: FC<Props> = ({ activeUser, channelID }) => {
     const [message, setMessage] = useState<string>('')
-    const [messageDetails, setMessageDetails] = useState<object[]>([])
+    const [messageDetails, setMessageDetails] = useState<MessageData[]>([])
 
     useEffect(() => {
         async function getMessages() {
             const url = `http://206.189.91.54/api/v1/messages?receiver_id=${channelID}&receiver_class=Channel`
+
             const response = await fetch(url,
                 {
                     method: "GET",
@@ -45,17 +47,18 @@ const Message: FC<Props> = ({ activeUser, channelID }) => {
             const data = await response.json()
 
             if (response.ok) {
-                console.log(data.data[0].sender.id)
-                const messageDetailsCopy = [...messageDetails]
-                data.data.forEach((e: object) => {
-                    messageDetailsCopy.push(e)
+                // console.log(data.data[0].sender.id)
+                console.log(url)
+                let tempMessageDetails: Array<MessageData> = []
+                data.data.forEach((e: MessageData) => {
+                    tempMessageDetails.push(e)
                 })
-                setMessageDetails(messageDetailsCopy)
+                setMessageDetails(tempMessageDetails)
             }
-
         }
         getMessages()
-    }, [message])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [message, channelID])
 
     async function sendMessage(e: React.KeyboardEvent<HTMLInputElement>) {
         if (e.key === 'Enter') {
@@ -79,6 +82,7 @@ const Message: FC<Props> = ({ activeUser, channelID }) => {
 
             if (response.ok) {
                 console.log(data.data.body)
+                setMessage('')
             }
         }
     }
@@ -87,10 +91,35 @@ const Message: FC<Props> = ({ activeUser, channelID }) => {
         console.log(messageDetails)
     }
 
+    const checkMessages = () => {
+        const filteredArray = messageDetails.filter(message => message.receiver.id === channelID)
+
+        if (filteredArray.length !== 0) {
+            const listMessages = filteredArray.map(message => {
+                return (
+                    <div key={message.id}>
+                        {message.body}
+                    </div>
+                )
+            })
+
+            return listMessages
+        } else {
+            return (
+                <span>No messages</span>
+            )
+        }
+    }
+
+    const messagesComponent = checkMessages()
+
     return (
         <div>
+            <div>
+                {messagesComponent}
+            </div>
             <input type="text" name="message" id="message" placeholder='
-            Enter Message' onChange={e => setMessage(e.target.value)} onKeyDown={sendMessage} />
+            Enter Message' onChange={e => setMessage(e.target.value)} onKeyDown={sendMessage} value={message} />
             <button onClick={logMessages}>View Messages</button>
         </div>
     )
