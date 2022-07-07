@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { FC, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 interface User {
@@ -11,10 +11,12 @@ interface Props {
     setActiveUser: (val: object) => void
 }
 
-function Login({ activeUser, setActiveUser }: Props) {
+const Login: FC<Props> = ({ activeUser, setActiveUser }) => {
     const navigate = useNavigate()
     const [email, setEmail] = useState<string>('')
     const [password, setPassword] = useState<string>('')
+    const [notif, setNotif] = useState<string>('')
+
 
 
     async function submitHandler(e: React.FormEvent) {
@@ -32,19 +34,19 @@ function Login({ activeUser, setActiveUser }: Props) {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                mode: "cors",
                 body: JSON.stringify(body)
             })
 
 
-        if (response.status >= 200 && response.status <= 299) {
-            let data = await response.json()
-            let headers = response.headers
+        let data = await response.json()
+        if (response.ok) {
+            let responseHeaders = response.headers
             let userHeaders = {
-                'access-token': headers.get('access-token'),
-                client: headers.get('client'),
-                expiry: headers.get('expiry'),
-                uid: headers.get('uid')
+                'access-token': responseHeaders.get('access-token'),
+                client: responseHeaders.get('client'),
+                expiry: responseHeaders.get('expiry'),
+                uid: responseHeaders.get('uid'),
+                'Content-Type': 'application/json'
             }
 
             setActiveUser({
@@ -56,22 +58,25 @@ function Login({ activeUser, setActiveUser }: Props) {
 
             navigate('/dashboard')
         } else {
-            console.log("Can't connect")
+            setNotif(data.errors)
+            console.log(data.errors)
+            console.log(data)
         }
     }
 
     return (
-        <main className="main-container">
-            <div className="form">
-                <h2 className="content-header">Login</h2>
+        <main>
+            <div>
+                <h2>Login</h2>
+                {notif && <span>{notif}</span>}
                 <form onSubmit={submitHandler}>
-                    <div className="input-field">
+                    <div>
                         <input type="email" name="email" id="email" placeholder='Email' onChange={e => { setEmail(e.target.value) }} />
                     </div>
-                    <div className="input-field">
+                    <div>
                         <input type="password" name="password" id="password" placeholder='Password' onChange={e => { setPassword(e.target.value) }} />
                     </div>
-                    <div className="input-field">
+                    <div>
                         <input className='input-btn' type="submit" value="Login" />
                     </div>
                 </form>
