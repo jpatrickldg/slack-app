@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC, useState } from 'react'
+import { ChangeEvent, FC, useState, FormEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { User } from '../Types'
 
@@ -13,16 +13,13 @@ const Login: FC<Props> = ({ activeUser, setActiveUser }) => {
     const [password, setPassword] = useState<string>('')
     const [notif, setNotif] = useState<string>('')
 
-
-
-    async function submitHandler(e: React.FormEvent) {
+    async function submitHandler(e: FormEvent) {
         e.preventDefault()
 
-        let body = {
+        const body = {
             "email": email,
             "password": password
         }
-
         const url = "http://206.189.91.54/api/v1/auth/sign_in/"
         const response = await fetch(url,
             {
@@ -32,9 +29,8 @@ const Login: FC<Props> = ({ activeUser, setActiveUser }) => {
                 },
                 body: JSON.stringify(body)
             })
+        const data = await response.json()
 
-
-        let data = await response.json()
         if (response.ok) {
             let responseHeaders = response.headers
             let userHeaders = {
@@ -44,14 +40,11 @@ const Login: FC<Props> = ({ activeUser, setActiveUser }) => {
                 uid: responseHeaders.get('uid'),
                 'Content-Type': 'application/json'
             }
-
             setActiveUser({
                 ...data,
                 "headers": userHeaders
             })
-
             console.log(activeUser)
-
             navigate('/dashboard')
         } else {
             setNotif(data.errors)

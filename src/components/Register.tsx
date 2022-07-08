@@ -1,14 +1,13 @@
-import React, { ChangeEvent, FC, useState } from 'react'
+import { ChangeEvent, FC, useState, FormEvent } from 'react'
 import { UserRegistration } from '../Types'
 
 const Register: FC = () => {
-
 
     const [userDetails, setUserDetails] = useState<UserRegistration>({ email: '', password: '', confirmPassword: '' })
 
     const [notif, setNotif] = useState<string>('')
 
-    async function submitHandler(e: React.FormEvent) {
+    async function submitHandler(e: FormEvent) {
         e.preventDefault()
 
         const body = {
@@ -16,7 +15,6 @@ const Register: FC = () => {
             "password": userDetails.password,
             "password_confirmation": userDetails.confirmPassword
         }
-
         const url = "http://206.189.91.54/api/v1/auth/"
         const response = await fetch(url,
             {
@@ -27,7 +25,6 @@ const Register: FC = () => {
                 body: JSON.stringify(body)
             }
         )
-
         const data = await response.json()
 
         if (response.ok) {
@@ -36,7 +33,6 @@ const Register: FC = () => {
             setNotif(data.errors.full_messages[0]);
             console.log(data, data.errors.full_messages[0])
         }
-
     }
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
