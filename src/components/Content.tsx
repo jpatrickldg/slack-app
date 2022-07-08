@@ -49,7 +49,7 @@ const Content: FC<Props> = ({ activeUser, activeUserChannels, setActiveUserChann
             {channelName ?
                 <>
                     <h1>{channelID} : {channelName}</h1>
-                    {/* <button onClick={logChannelDetails}>View Channel Details</button> */}
+                    <button onClick={logChannelDetails}>View Channel Details</button>
                     <Message activeUser={activeUser} activeUserChannels={activeUserChannels} setActiveUserChannels={setActiveUserChannels} setChannelName={setChannelName} setChannelID={setChannelID} channelName={channelName} channelID={channelID} />
                 </>
                 :
