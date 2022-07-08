@@ -1,14 +1,10 @@
-import React, { FC, useState } from 'react'
+import React, { ChangeEvent, FC, useState } from 'react'
+import { UserRegistration } from '../Types'
 
 const Register: FC = () => {
 
-    interface User {
-        email: string
-        password: string
-        confirmPassword: string
-    }
 
-    const [userDetails, setUserDetails] = useState<User>({ email: '', password: '', confirmPassword: '' })
+    const [userDetails, setUserDetails] = useState<UserRegistration>({ email: '', password: '', confirmPassword: '' })
 
     const [notif, setNotif] = useState<string>('')
 
@@ -43,6 +39,16 @@ const Register: FC = () => {
 
     }
 
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+        if (e.target.name === 'email') {
+            setUserDetails({ ...userDetails, email: e.target.value })
+        } else if (e.target.name === 'password') {
+            setUserDetails({ ...userDetails, password: e.target.value })
+        } else if (e.target.name === 'confirm-password') {
+            setUserDetails({ ...userDetails, confirmPassword: e.target.value })
+        }
+    }
+
     return (
         <main>
             <div>
@@ -52,19 +58,13 @@ const Register: FC = () => {
                 </div>
                 <form onSubmit={submitHandler}>
                     <div>
-                        <input required type="email" name="email" id="email" placeholder='Email' onChange={e => {
-                            setUserDetails({ ...userDetails, email: e.target.value })
-                        }} />
+                        <input required type="email" name="email" id="email" placeholder='Email' onChange={handleChange} />
                     </div>
                     <div>
-                        <input required type="password" name="password" id="password" placeholder='Password' onChange={e => {
-                            setUserDetails({ ...userDetails, password: e.target.value })
-                        }} />
+                        <input required type="password" name="password" id="password" placeholder='Password' onChange={handleChange} />
                     </div>
                     <div>
-                        <input required type="password" name="confirm-password" id="confirm-password" placeholder='Confirm Password' onChange={e => {
-                            setUserDetails({ ...userDetails, confirmPassword: e.target.value })
-                        }} />
+                        <input required type="password" name="confirm-password" id="confirm-password" placeholder='Confirm Password' onChange={handleChange} />
                     </div>
                     <div>
                         <input className='input-btn' type="submit" value="Register" />
