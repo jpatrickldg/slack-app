@@ -1,24 +1,5 @@
-import React, { FC, useEffect, useState } from 'react'
-
-type NumberID = {
-    id: number
-}
-
-type Channel = {
-    id: number
-    name: string
-}
-
-type MessageData = {
-    body: string
-    id: number
-    receiver: NumberID
-}
-
-type User = {
-    data?: NumberID
-    headers?: Headers
-}
+import React, { ChangeEvent, FC, useEffect, useState } from 'react'
+import { User, Channel, MessageData } from '../Types'
 
 interface Props {
     activeUser: User
@@ -98,7 +79,12 @@ const Message: FC<Props> = ({ activeUser, channelID }) => {
             const listMessages = filteredArray.map(message => {
                 return (
                     <div key={message.id}>
-                        {message.body}
+                        <div>
+                            <span>{message.sender.uid}({message.sender.id})</span>
+                        </div>
+                        <div>
+                            <span>{message.body}</span>
+                        </div>
                     </div>
                 )
             })
@@ -113,13 +99,18 @@ const Message: FC<Props> = ({ activeUser, channelID }) => {
 
     const messagesComponent = checkMessages()
 
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+        setMessage(e.target.value)
+    }
+
     return (
         <div>
             <div>
                 {messagesComponent}
             </div>
+            <br />
             <input type="text" name="message" id="message" placeholder='
-            Enter Message' onChange={e => setMessage(e.target.value)} onKeyDown={sendMessage} value={message} />
+            Enter Message' onChange={handleChange} onKeyDown={sendMessage} value={message} />
             <button onClick={logMessages}>View Messages</button>
         </div>
     )

@@ -1,18 +1,5 @@
-import React, { FC, useState } from 'react'
-
-type UserData = {
-    id: number
-}
-
-type Channel = {
-    id: number
-    name: string
-}
-
-type User = {
-    data?: UserData
-    headers?: Headers
-}
+import React, { ChangeEvent, FC, useState } from 'react'
+import { Channel, User } from '../Types'
 
 interface Props {
     activeUser: User
@@ -83,11 +70,15 @@ const AddChannel: FC<Props> = ({ activeUser, activeUserChannels, setActiveUserCh
             )
         })
 
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+        setChannelName(e.target.value)
+    }
+
     return (
         <div>
             {notif ? <span>{notif}</span> : ''}
             <div>
-                <input type="text" name="channel-name" id="channel-name" placeholder='Channel Name' onChange={e => { setChannelName(e.target.value) }}
+                <input type="text" name="channel-name" id="channel-name" placeholder='Channel Name' onChange={handleChange}
                 />
             </div>
             <button onClick={addChannel}>Add Channel</button>

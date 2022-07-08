@@ -1,10 +1,6 @@
-import React, { FC, useState } from 'react'
+import React, { ChangeEvent, FC, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-
-interface User {
-    data?: object
-    headers?: object
-}
+import { User } from '../Types'
 
 interface Props {
     activeUser: User
@@ -64,6 +60,14 @@ const Login: FC<Props> = ({ activeUser, setActiveUser }) => {
         }
     }
 
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+        if (e.target.name === 'email') {
+            setEmail(e.target.value)
+        } else if (e.target.name === 'password') {
+            setPassword(e.target.value)
+        }
+    }
+
     return (
         <main>
             <div>
@@ -71,10 +75,10 @@ const Login: FC<Props> = ({ activeUser, setActiveUser }) => {
                 {notif && <span>{notif}</span>}
                 <form onSubmit={submitHandler}>
                     <div>
-                        <input type="email" name="email" id="email" placeholder='Email' onChange={e => { setEmail(e.target.value) }} />
+                        <input type="email" name="email" id="email" placeholder='Email' onChange={handleChange} />
                     </div>
                     <div>
-                        <input type="password" name="password" id="password" placeholder='Password' onChange={e => { setPassword(e.target.value) }} />
+                        <input type="password" name="password" id="password" placeholder='Password' onChange={handleChange} />
                     </div>
                     <div>
                         <input className='input-btn' type="submit" value="Login" />

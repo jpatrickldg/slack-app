@@ -2,21 +2,7 @@ import React, { FC, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import AddChannel from './AddChannel'
 import Content from './Content'
-
-
-type UserData = {
-    id: number
-}
-
-type Channel = {
-    id: number
-    name: string
-}
-
-type User = {
-    data?: UserData
-    headers?: Headers
-}
+import { Channel, User } from '../Types'
 
 interface Props {
     activeUser: User
