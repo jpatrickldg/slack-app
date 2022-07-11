@@ -12,6 +12,8 @@ type Sender = {
 export type Channel = {
     id: number
     name: string
+    owner_id: number
+    created_at: string
 }
 
 export type User = {
@@ -19,9 +21,13 @@ export type User = {
     headers?: Headers
 }
 
+export type MemberID = {
+    user_id: number
+}
 
 export type MessageData = {
     body: string
+    created_at: string
     id: number
     receiver: NumberID
     sender: Sender

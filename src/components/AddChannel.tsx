@@ -1,5 +1,7 @@
 import { FC, useState, ChangeEvent } from 'react'
 import { Channel, User } from '../Types'
+import { VscClose } from 'react-icons/vsc'
+import { HiX } from "react-icons/hi";
 
 interface Props {
     activeUser: User
@@ -51,20 +53,21 @@ const AddChannel: FC<Props> = ({ activeUser, activeUserChannels, setActiveUserCh
     }
 
     return (
-        <div className='module-container'>
-            <div className='module'>
-                <div>
-                    {notif ? <span>{notif}</span> : ''}
+        <div className='fixed top-0 left-0 flex justify-center items-center h-screen w-screen bg-black bg-opacity-90'>
+            <div className='w-[350px] bg-gray-700 p-4 rounded-md'>
+                <div className='text-gray-100 flex items-center justify-between mb-4'>
+                    <span>Create channel</span>
+                    <HiX onClick={closeAddChannelModule} className='font-extrabold text-3xl text-gray-500 hover:text-gray-200' />
                 </div>
                 <div>
-                    <input type="text" name="channel-name" id="channel-name" placeholder='Channel Name' onChange={handleChange}
-                    />
+                    {notif ? <span className='text-red-500 text-sm w-full'>{notif}</span> : ''}
+                </div>
+                <div className='mb-4'>
+                    <span className='text-gray-400 uppercase font-bold text-xs'>Channel Name</span>
+                    <input type="text" name="channel-name" id="channel-name" onChange={handleChange} className='text-gray-100 w-full bg-gray-900 h-10 rounded-md p-2  focus:outline-none' />
                 </div>
                 <div>
-                    <button onClick={addChannel}>Add</button>
-                </div>
-                <div>
-                    <button onClick={closeAddChannelModule}>Close</button>
+                    <button onClick={addChannel} className='text-gray-100 bg-indigo-500 w-full  h-10 rounded-md mb-2 cursor-pointer hover:bg-indigo-600 hover:border-0'>Create channel</button>
                 </div>
             </div>
         </div>

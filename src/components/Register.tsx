@@ -46,29 +46,33 @@ const Register: FC = () => {
     }
 
     return (
-        <main>
-            <div>
-                <h2>Register</h2>
-                <div>
-                    {notif && <span>{notif}</span>}
+        <main className='flex justify-center items-center h-screen w-screen bg-gray-400'>
+            <div className='w-[500px] p-7 bg-gray-700 rounded-md'>
+                <div className='text-3xl text-center mb-4 text-gray-100 font-bold'>
+                    <span>Create an account</span>
+                </div>
+                <div className='text-center mb-2'>
+                    {notif && <span className='text-red-500 text-sm w-full'>{notif}</span>}
                 </div>
                 <form onSubmit={submitHandler}>
-                    <div>
-                        <input required type="email" name="email" id="email" placeholder='Email' onChange={handleChange} />
+                    <div className='mb-3'>
+                        <span className='text-gray-400 uppercase font-bold text-xs'>Email</span>
+                        <input required type="email" name="email" id="email" onChange={handleChange} className='text-gray-100 w-full bg-gray-900 h-10 rounded-md p-2  focus:outline-none' />
+                    </div>
+                    <div className='mb-3'>
+                        <span className='text-gray-400 uppercase font-bold text-xs'>Password</span>
+                        <input required type="password" name="password" id="password" onChange={handleChange} className='text-gray-100 w-full bg-gray-900 h-10 rounded-md p-2  focus:outline-none' />
+                    </div>
+                    <div className='mb-6'>
+                        <span className='text-gray-400 uppercase font-bold text-xs'>Confirm Password</span>
+                        <input required type="password" name="confirm-password" id="confirm-password" onChange={handleChange} className='text-gray-100 w-full bg-gray-900 h-10 rounded-md p-2  focus:outline-none' />
                     </div>
                     <div>
-                        <input required type="password" name="password" id="password" placeholder='Password' onChange={handleChange} />
-                    </div>
-                    <div>
-                        <input required type="password" name="confirm-password" id="confirm-password" placeholder='Confirm Password' onChange={handleChange} />
-                    </div>
-                    <div>
-                        <input className='input-btn' type="submit" value="Register" />
+                        <input type="submit" value="Register" className='text-gray-100 bg-indigo-500 w-full  h-10 rounded-md mb-2 cursor-pointer hover:bg-indigo-600 hover:border-0' />
                     </div>
                 </form>
-
                 <div>
-                    <span>Already a member? <a href='/'>Login</a></span>
+                    <span className='text-gray-500 text-sm'>Already a member? <a href='/' className='text-blue-400 hover:underline'>Login</a></span>
                 </div>
             </div>
         </main>

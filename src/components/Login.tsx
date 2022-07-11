@@ -62,23 +62,32 @@ const Login: FC<Props> = ({ activeUser, setActiveUser }) => {
     }
 
     return (
-        <main>
-            <div>
-                <h2>Login</h2>
-                {notif && <span>{notif}</span>}
+        <main className='flex justify-center items-center h-screen w-screen bg-gray-400'>
+            <div className='w-[500px] p-7 bg-gray-700 rounded-md'>
+                <div className='text-3xl font-bold text-center text-gray-100 mb-2'>
+                    <span>Welcome back!</span>
+                </div>
+                <div className='text-center text-gray-400 mb-4'>
+                    <span>We're so excited to see you again!</span>
+                </div>
+                <div className='text-center mb-2'>
+                    {notif && <span className='text-red-500 text-sm w-full'>{notif}</span>}
+                </div>
                 <form onSubmit={submitHandler}>
-                    <div>
-                        <input type="email" name="email" id="email" placeholder='Email' onChange={handleChange} />
+                    <div className='mb-3'>
+                        <span className='text-gray-400 uppercase font-bold text-xs'>Email</span>
+                        <input type="email" name="email" id="email" onChange={handleChange} className='text-gray-100 w-full bg-gray-900 h-10 rounded-md p-2  focus:outline-none' />
+                    </div>
+                    <div className='mb-6'>
+                        <span className='text-gray-400 uppercase font-bold text-xs'>Password</span>
+                        <input type="password" name="password" id="password" onChange={handleChange} className='text-gray-100 w-full bg-gray-900 h-10 rounded-md p-2  focus:outline-none' />
                     </div>
                     <div>
-                        <input type="password" name="password" id="password" placeholder='Password' onChange={handleChange} />
-                    </div>
-                    <div>
-                        <input className='input-btn' type="submit" value="Login" />
+                        <input type="submit" value="Login" className='text-gray-100 bg-indigo-500 w-full  h-10 rounded-md mb-2 cursor-pointer hover:bg-indigo-600 hover:border-0' />
                     </div>
                 </form>
                 <div>
-                    <span>Not a member? <a href='/register'>Register</a> </span>
+                    <span className='text-gray-500 text-sm'>Not a member? <a href='/register' className='text-blue-400 hover:underline'>Register</a> </span>
                 </div>
             </div>
         </main>

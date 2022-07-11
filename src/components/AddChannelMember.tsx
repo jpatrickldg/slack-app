@@ -1,13 +1,16 @@
 import { FC, useState, ChangeEvent } from 'react'
 import { User } from '../Types'
+import { VscClose } from 'react-icons/vsc'
+import { HiOutlineHashtag, HiX } from "react-icons/hi";
 
 interface Props {
     activeUser: User
     channelID: number | null
     setShowAddMember: (val: boolean) => void
+    setActiveChannelMemberCount: (val: number) => void
 }
 
-const AddChannelMember: FC<Props> = ({ activeUser, channelID, setShowAddMember }) => {
+const AddChannelMember: FC<Props> = ({ activeUser, channelID, setShowAddMember, setActiveChannelMemberCount }) => {
     const [memberID, setMemberID] = useState<number | null>(null)
     const [notif, setNotif] = useState<string>('')
 
@@ -27,8 +30,10 @@ const AddChannelMember: FC<Props> = ({ activeUser, channelID, setShowAddMember }
 
         if (response.ok) {
             if (data.errors === undefined) {
-                console.log(data)
+                console.log(data.data.channel_members.length)
                 setNotif('User Added to Channel')
+                const membersCount = data.data.channel_members.length
+                setActiveChannelMemberCount(membersCount)
             } else {
                 setNotif(data.errors)
             }
@@ -44,19 +49,21 @@ const AddChannelMember: FC<Props> = ({ activeUser, channelID, setShowAddMember }
     }
 
     return (
-        <div className='module-container'>
-            <div className='module'>
-                <div>
-                    {notif && <span>{notif}</span>}
+        <div className='fixed top-0 left-0 flex justify-center items-center h-screen w-screen bg-black bg-opacity-90'>
+            <div className='w-[350px] bg-gray-700 p-4 rounded-md'>
+                <div className='text-gray-100 flex items-center justify-between mb-4'>
+                    <span>Add member to this channel</span>
+                    <HiX onClick={closeAddMemberModule} className='font-extrabold text-3xl text-gray-500 hover:text-gray-200' />
                 </div>
                 <div>
-                    <input type="number" name="memberID" id="memberID" placeholder='User ID' onChange={handleChange} />
+                    {notif && <span className='text-red-500 text-sm w-full'>{notif}</span>}
+                </div>
+                <div className='mb-4'>
+                    <span className='text-gray-400 uppercase font-bold text-xs'>User ID</span>
+                    <input type="number" name="memberID" id="memberID" onChange={handleChange} className='text-gray-100 w-full bg-gray-900 h-10 rounded-md p-2  focus:outline-none' />
                 </div>
                 <div>
-                    <button onClick={addMembertoChannel}>Add</button>
-                </div>
-                <div>
-                    <button onClick={closeAddMemberModule}>Close</button>
+                    <button onClick={addMembertoChannel} className='text-gray-100 bg-indigo-500 w-full  h-10 rounded-md mb-2 cursor-pointer hover:bg-indigo-600 hover:border-0'>Add member</button>
                 </div>
             </div>
         </div>

@@ -1,8 +1,12 @@
-import { FC, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import Message from './Message'
 import AddChannelMember from './AddChannelMember'
 import SendMessage from './SendMessage'
-import { User } from '../Types'
+import ChannelDetails from './ChannelDetails'
+import ChannelMembers from './ChannelMembers'
+import { Channel, MemberID, User } from '../Types'
+import { VscPersonAdd, VscClose } from 'react-icons/vsc'
+import { HiOutlineHashtag, HiOutlineUserAdd, HiX, HiOutlineInformationCircle, HiOutlineUsers } from "react-icons/hi";
 
 interface Props {
     activeUser: User
@@ -14,6 +18,11 @@ interface Props {
 const Content: FC<Props> = ({ activeUser, setChannelName, channelID, channelName }) => {
     const [message, setMessage] = useState<string>('')
     const [showAddMember, setShowAddMember] = useState<boolean>(false)
+    const [selectedChannelMembers, setSelectedChannelMembers] = useState<Array<number>>([])
+    const [selectedChannelDetails, setSelectedChannelDetails] = useState<Channel>()
+    const [showChannelDetails, setShowChannelDetails] = useState<boolean>(false)
+    const [displayMembers, setDisplayMembers] = useState<boolean>(false)
+    const [activeChannelMembersCount, setActiveChannelMemberCount] = useState<number | null>(null)
     const displayAddMember = () => {
         setShowAddMember(true)
     }
@@ -21,32 +30,95 @@ const Content: FC<Props> = ({ activeUser, setChannelName, channelID, channelName
         setChannelName('')
     }
 
+    async function getChannelDetails() {
+        const url = `http://206.189.91.54/api/v1/channels/${channelID}`
+        const response = await fetch(url,
+            {
+                method: "GET",
+                headers: activeUser.headers
+            })
+        const data = await response.json()
+
+        if (response.ok) {
+            console.log(data)
+            const channelDetails = data.data
+            setSelectedChannelDetails(channelDetails)
+            const channelMembersDetails = data.data.channel_members
+            const membersCount = data.data.channel_members.length
+            setActiveChannelMemberCount(membersCount)
+            const channelMembers: Array<number> = []
+            channelMembersDetails.forEach((element: MemberID) => {
+                channelMembers.push(element.user_id)
+            });
+            setSelectedChannelMembers(channelMembers)
+            console.log(selectedChannelMembers)
+            console.log(selectedChannelDetails)
+        } else console.log(response)
+    }
+
+    useEffect(() => {
+        channelName && getChannelDetails()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [channelID, activeChannelMembersCount])
+
+    const displayChannelDetails = () => {
+        setShowChannelDetails(true)
+    }
+
+    const hideChannelDetails = () => {
+        setShowChannelDetails(false)
+    }
+
+    const toggleMembersDisplay = () => {
+        displayMembers ? setDisplayMembers(false) : setDisplayMembers(true)
+    }
+
     return (
         <>
             {channelName ?
-                <div className='main-content'>
-                    <div className='main-top'>
+                <>
+                    <div className='h-full grow bg-gray-700 text-gray-100 flex flex-col justify-between'>
+                        <div className='w-full h-[5%] flex justify-between items-center bg-gray-700 p-3 border-b-2 border-gray-900' >
+                            <div className='flex items-center gap-1'>
+                                <HiOutlineHashtag className='text-2xl' />
+                                <span className='font-bold text-xl'>{channelName}</span>
+                            </div>
+                            <div className='flex font-extrabold text-2xl gap-3 text-gray-500 relative'>
+                                <div onMouseOver={displayChannelDetails} onMouseLeave={hideChannelDetails}>
+                                    <HiOutlineInformationCircle className='cursor-pointer hover:text-gray-100' />
+                                </div>
+                                <HiOutlineUsers title='View Members' onClick={toggleMembersDisplay} className='cursor-pointer hover:text-green-500 text-green-400' />
+                                <HiOutlineUserAdd title='Add Member' onClick={displayAddMember} className='cursor-pointer hover:text-green-500 text-green-400' />
+                                <HiX title='Close' onClick={closeChannel} className='cursor-pointer hover:text-red-500 text-red-400' />
+                                {showChannelDetails && selectedChannelDetails ? <ChannelDetails selectedChannelDetails={selectedChannelDetails} selectedChannelMembers={selectedChannelMembers} /> : ''}
+                            </div>
+                        </div>
+                        <div className='w-full h-[95%] flex'>
+                            <div className='h-full grow flex flex-col p-2'>
+                                <div className='w-full h-[93%] overflow-auto grow-0 scroll-smooth scrollbar-thin scrollbar-track-gray-800 scrollbar-thumb-gray-900' >
+                                    <Message activeUser={activeUser} channelID={channelID} message={message} />
+                                </div>
+                                <div className='w-full mb-0 px-2 h-[7%]  flex items-center'>
+                                    <SendMessage activeUser={activeUser} channelID={channelID} message={message} setMessage={setMessage} />
+                                </div>
+                            </div>
+                            {displayMembers &&
+                                <div className='h-full basis-[175px] bg-gray-800 text-gray-100'>
+                                    <ChannelMembers selectedChannelMembers={selectedChannelMembers} channelName={channelName} activeUser={activeUser} />
+                                </div>
+                            }
+                        </div>
                         <div>
-                            <span>{channelName}</span>
-                        </div>
-                        <div className='flex'>
-                            <button className='small-btn' onClick={displayAddMember}>Add</button>
-                            <button className='small-btn' onClick={closeChannel}>Close</button>
+                            {showAddMember && <AddChannelMember activeUser={activeUser} channelID={channelID} setShowAddMember={setShowAddMember} setActiveChannelMemberCount={setActiveChannelMemberCount} />}
                         </div>
                     </div>
-                    <div className='main-mid'>
-                        <Message activeUser={activeUser} channelID={channelID} message={message} />
-                    </div>
-                    <div className='main-bot'>
-                        <SendMessage activeUser={activeUser} channelID={channelID} message={message} setMessage={setMessage} />
-                    </div>
-                    <div>
-                        {showAddMember && <AddChannelMember activeUser={activeUser} channelID={channelID} setShowAddMember={setShowAddMember} />}
-                    </div>
-                </div>
+                </>
                 :
-                <div className='center'>
-                    <h2>Welcome to Avion Chat</h2>
+                <div className='w-full h-full flex items-center justify-center bg-gray-700'>
+                    <div className='text-center'>
+                        <h2 className='text-3xl font-bold text-gray-100'>Welcome to Avion Chat</h2>
+                        <span className='text-gray-500'>Check on your channels on the left to browse messages!</span>
+                    </div>
                 </div>
             }
         </>

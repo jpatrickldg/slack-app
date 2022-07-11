@@ -41,7 +41,7 @@ const SendMessage: FC<Props> = ({ activeUser, channelID, message, setMessage }) 
 
     return (
         <input type="text" name="message" id="message" placeholder='
-            Enter Message' onChange={handleChange} onKeyDown={sendMessage} value={message} />
+            Enter Message' onChange={handleChange} onKeyDown={sendMessage} value={message} className='text-gray-100 w-full bg-gray-800 h-10 rounded-md p-2  focus:outline-none placeholder:text-gray-500' />
     )
 }
 
