@@ -3,6 +3,11 @@ export type NumberID = {
     id: number
 }
 
+export type UserData = {
+    id: number
+    uid: string
+}
+
 type Sender = {
     uid: string
     id: number
@@ -17,7 +22,7 @@ export type Channel = {
 }
 
 export type User = {
-    data?: NumberID
+    data?: UserData
     headers?: Headers
 }
 

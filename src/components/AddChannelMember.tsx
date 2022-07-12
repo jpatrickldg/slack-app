@@ -1,7 +1,6 @@
 import { FC, useState, ChangeEvent } from 'react'
 import { User } from '../Types'
-import { VscClose } from 'react-icons/vsc'
-import { HiOutlineHashtag, HiX } from "react-icons/hi";
+import { HiX } from "react-icons/hi";
 
 interface Props {
     activeUser: User
@@ -12,6 +11,7 @@ interface Props {
 
 const AddChannelMember: FC<Props> = ({ activeUser, channelID, setShowAddMember, setActiveChannelMemberCount }) => {
     const [memberID, setMemberID] = useState<number | null>(null)
+    const [successNotif, setSuccessNotif] = useState<string>('')
     const [notif, setNotif] = useState<string>('')
 
     async function addMembertoChannel() {
@@ -31,10 +31,12 @@ const AddChannelMember: FC<Props> = ({ activeUser, channelID, setShowAddMember, 
         if (response.ok) {
             if (data.errors === undefined) {
                 console.log(data.data.channel_members.length)
-                setNotif('User Added to Channel')
+                setNotif('')
+                setSuccessNotif(`User ${memberID} is added to the Channel`)
                 const membersCount = data.data.channel_members.length
                 setActiveChannelMemberCount(membersCount)
             } else {
+                setSuccessNotif('')
                 setNotif(data.errors)
             }
         } else console.log(data)
@@ -49,13 +51,14 @@ const AddChannelMember: FC<Props> = ({ activeUser, channelID, setShowAddMember, 
     }
 
     return (
-        <div className='fixed top-0 left-0 flex justify-center items-center h-screen w-screen bg-black bg-opacity-90'>
+        <div className='fixed top-0 left-0 flex justify-center items-center h-screen w-screen bg-black bg-opacity-90 z-10'>
             <div className='w-[350px] bg-gray-700 p-4 rounded-md'>
                 <div className='text-gray-100 flex items-center justify-between mb-4'>
                     <span>Add member to this channel</span>
                     <HiX onClick={closeAddMemberModule} className='font-extrabold text-3xl text-gray-500 hover:text-gray-200' />
                 </div>
                 <div>
+                    {successNotif && <span className='w-full text-sm text-green-500'>{successNotif}</span>}
                     {notif && <span className='text-red-500 text-sm w-full'>{notif}</span>}
                 </div>
                 <div className='mb-4'>

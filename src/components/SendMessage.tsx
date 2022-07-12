@@ -17,7 +17,6 @@ const SendMessage: FC<Props> = ({ activeUser, channelID, message, setMessage }) 
                 "receiver_id": channelID,
                 "receiver_class": "Channel",
                 "body": message
-
             }
             const url = "http://206.189.91.54/api/v1/messages"
             const response = await fetch(url,

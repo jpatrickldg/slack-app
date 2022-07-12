@@ -62,7 +62,7 @@ const Login: FC<Props> = ({ activeUser, setActiveUser }) => {
     }
 
     return (
-        <main className='flex justify-center items-center h-screen w-screen bg-gray-400'>
+        <main className='flex justify-center items-center h-screen w-screen bg-gray-600'>
             <div className='w-[500px] p-7 bg-gray-700 rounded-md'>
                 <div className='text-3xl font-bold text-center text-gray-100 mb-2'>
                     <span>Welcome back!</span>

@@ -1,7 +1,6 @@
 import { FC, useState, useEffect } from 'react'
 import { Channel, User } from '../Types'
 import AddChannel from './AddChannel'
-import { VscAdd } from 'react-icons/vsc'
 import { HiOutlineHashtag, HiPlus } from "react-icons/hi";
 
 interface Props {
@@ -68,7 +67,7 @@ const ChannelList: FC<Props> = ({ activeUser, activeUserChannels, setActiveUserC
                     <span className='font-bold text-sm uppercase'>Channels</span>
                 </div>
                 <div>
-                    <HiPlus title="Add Channel" onClick={showAddChannelModule} className='text-2xl cursor-pointer text-green-400 hover:text-green-500' />
+                    <HiPlus title="Add Channel" onClick={showAddChannelModule} className='text-2xl cursor-pointer text-green-500 hover:text-green-400' />
                 </div>
             </div>
             <div className='px-2'>

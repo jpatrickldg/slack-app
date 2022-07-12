@@ -5,7 +5,6 @@ import SendMessage from './SendMessage'
 import ChannelDetails from './ChannelDetails'
 import ChannelMembers from './ChannelMembers'
 import { Channel, MemberID, User } from '../Types'
-import { VscPersonAdd, VscClose } from 'react-icons/vsc'
 import { HiOutlineHashtag, HiOutlineUserAdd, HiX, HiOutlineInformationCircle, HiOutlineUsers } from "react-icons/hi";
 
 interface Props {
@@ -87,9 +86,9 @@ const Content: FC<Props> = ({ activeUser, setChannelName, channelID, channelName
                                 <div onMouseOver={displayChannelDetails} onMouseLeave={hideChannelDetails}>
                                     <HiOutlineInformationCircle className='cursor-pointer hover:text-gray-100' />
                                 </div>
-                                <HiOutlineUsers title='View Members' onClick={toggleMembersDisplay} className='cursor-pointer hover:text-green-500 text-green-400' />
-                                <HiOutlineUserAdd title='Add Member' onClick={displayAddMember} className='cursor-pointer hover:text-green-500 text-green-400' />
-                                <HiX title='Close' onClick={closeChannel} className='cursor-pointer hover:text-red-500 text-red-400' />
+                                <HiOutlineUsers title='View Members' onClick={toggleMembersDisplay} className='cursor-pointer hover:text-green-400 text-green-500' />
+                                <HiOutlineUserAdd title='Add Member' onClick={displayAddMember} className='cursor-pointer hover:text-green-400 text-green-500' />
+                                <HiX title='Close' onClick={closeChannel} className='cursor-pointer hover:text-red-400 text-red-500' />
                                 {showChannelDetails && selectedChannelDetails ? <ChannelDetails selectedChannelDetails={selectedChannelDetails} selectedChannelMembers={selectedChannelMembers} /> : ''}
                             </div>
                         </div>
@@ -103,7 +102,7 @@ const Content: FC<Props> = ({ activeUser, setChannelName, channelID, channelName
                                 </div>
                             </div>
                             {displayMembers &&
-                                <div className='h-full basis-[175px] bg-gray-800 text-gray-100'>
+                                <div className='h-full basis-[150px] bg-gray-800 text-gray-100 shrink-0'>
                                     <ChannelMembers selectedChannelMembers={selectedChannelMembers} channelName={channelName} activeUser={activeUser} />
                                 </div>
                             }
