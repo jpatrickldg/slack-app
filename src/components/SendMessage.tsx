@@ -17,7 +17,6 @@ const SendMessage: FC<Props> = ({ activeUser, channelID, message, setMessage }) 
                 "receiver_id": channelID,
                 "receiver_class": "Channel",
                 "body": message
-
             }
             const url = "http://206.189.91.54/api/v1/messages"
             const response = await fetch(url,
@@ -41,7 +40,7 @@ const SendMessage: FC<Props> = ({ activeUser, channelID, message, setMessage }) 
 
     return (
         <input type="text" name="message" id="message" placeholder='
-            Enter Message' onChange={handleChange} onKeyDown={sendMessage} value={message} />
+            Enter Message' onChange={handleChange} onKeyDown={sendMessage} value={message} className='text-gray-100 w-full bg-gray-800 h-10 rounded-md p-2  focus:outline-none placeholder:text-gray-500' />
     )
 }
 

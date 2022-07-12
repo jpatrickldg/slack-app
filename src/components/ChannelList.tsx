@@ -1,6 +1,7 @@
 import { FC, useState, useEffect } from 'react'
 import { Channel, User } from '../Types'
 import AddChannel from './AddChannel'
+import { HiOutlineHashtag, HiPlus } from "react-icons/hi";
 
 interface Props {
     activeUser: User
@@ -34,6 +35,7 @@ const ChannelList: FC<Props> = ({ activeUser, activeUserChannels, setActiveUserC
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
+
     const listChannels = activeUserChannels === undefined
         ?
         <div>
@@ -42,9 +44,10 @@ const ChannelList: FC<Props> = ({ activeUser, activeUserChannels, setActiveUserC
         :
         activeUserChannels.map(e => {
             return (
-                <div key={e.id}>
-                    <button onClick={() => setChannelDetails(e.name, e.id)} className='channel-btn'>{e.name}</button>
-                </div>
+                <button key={e.id} onClick={() => setChannelDetails(e.name, e.id)} className={e.name === channelName ? 'flex items-center gap-1 hover:bg-gray-700 w-full hover:rounded-md h-9 text-left px-1 cursor-pointer bg-gray-700 rounded-md mb-1' : 'flex items-center gap-1 hover:bg-gray-700 w-full hover:rounded-md h-9 text-left px-1 cursor-pointer mb-1'}>
+                    <HiOutlineHashtag className='text-lg' />
+                    <span>{e.name}</span>
+                </button>
             )
         })
 
@@ -57,18 +60,17 @@ const ChannelList: FC<Props> = ({ activeUser, activeUserChannels, setActiveUserC
         console.log(channelName, channelID)
     }
 
-
     return (
         <>
-            <div className='main-top'>
+            <div className='flex justify-between items-center mb-2 p-3'>
                 <div>
-                    <span>Channels</span>
+                    <span className='font-bold text-sm uppercase'>Channels</span>
                 </div>
                 <div>
-                    <button onClick={showAddChannelModule} title="Add Channel" className='small-btn'>Add</button>
+                    <HiPlus title="Add Channel" onClick={showAddChannelModule} className='text-2xl cursor-pointer text-green-500 hover:text-green-400' />
                 </div>
             </div>
-            <div>
+            <div className='px-2'>
                 {listChannels}
             </div>
             <div>

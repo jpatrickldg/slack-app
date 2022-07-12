@@ -1,13 +1,17 @@
 import { FC, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import Content from './Content'
+import Sidebar from './Sidebar'
 import { Channel, User } from '../Types'
+<<<<<<< HEAD
 <<<<<<< HEAD
 import ChannelList from './ChannelList'
 =======
 import DirectMessage from './DirectMessage'
 import DMcontent from './DMcontent'
 >>>>>>> direct-message
+=======
+
+>>>>>>> 95dbb127341a82f9d4558e153daf69735c122b04
 
 interface Props {
     activeUser: User
@@ -15,7 +19,6 @@ interface Props {
 }
 
 const Dashboard: FC<Props> = ({ activeUser, setActiveUser }) => {
-    const navigate = useNavigate()
     const [activeUserChannels, setActiveUserChannels] = useState<Channel[]>([])
     const [channelName, setChannelName] = useState<string>('')
     const [channelID, setChannelID] = useState<number | null>(null)
@@ -23,12 +26,10 @@ const Dashboard: FC<Props> = ({ activeUser, setActiveUser }) => {
     // const [userID, setUserID] = useState<number | null>(null)
     // const [activeUserName, setActiveUserNames] = useState<Channel[]>([])
 
-    const logout = () => {
-        setActiveUser({})
-        navigate('/')
-    }
+
 
     return (
+<<<<<<< HEAD
 <<<<<<< HEAD
         <div className="main-container">
             <div className='dashboard'>
@@ -66,9 +67,13 @@ const Dashboard: FC<Props> = ({ activeUser, setActiveUser }) => {
                 <DMcontent activeUser={activeUser} activeUserChannels={activeUserChannels} setActiveUserChannels={setActiveUserChannels} setChannelName={setChannelName} setChannelID={setChannelID} channelName={channelName} channelID={channelID} />
             </div>
 >>>>>>> direct-message
+=======
+        <main className='flex justify-center items-center h-screen w-screen'>
+            <Sidebar activeUser={activeUser} setActiveUser={setActiveUser} setChannelName={setChannelName} channelName={channelName} channelID={channelID} setChannelID={setChannelID} activeUserChannels={activeUserChannels} setActiveUserChannels={setActiveUserChannels} />
+>>>>>>> 95dbb127341a82f9d4558e153daf69735c122b04
 
-            </div>
-        </div>
+            <Content activeUser={activeUser} setChannelName={setChannelName} channelName={channelName} channelID={channelID} />
+        </main>
     )
 }
 
