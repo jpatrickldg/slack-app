@@ -14,8 +14,8 @@ const SendDirectMessage: FC<Props> = ({ activeUser, setShowDMModal }) => {
     const [successNotif, setSuccessNotif] = useState<string>('')
 
     async function sendDirectMessage() {
-        const url = "http://206.189.91.54/api/v1/messages"
-       
+        const url = `${process.env.REACT_APP_SLACK_API}/api/v1/messages`
+
         const body = {
             "receiver_id": recipientID,
             "receiver_class": "User",

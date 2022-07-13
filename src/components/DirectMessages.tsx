@@ -1,5 +1,5 @@
 import { FC, useState } from 'react'
-import { User,userDetails } from '../Types'
+import { User, userDetails } from '../Types'
 interface Props {
     activeUser: User
 }
@@ -12,7 +12,7 @@ const DirectMessages: FC<Props> = ({ activeUser }) => {
         if (activeUser.data !== undefined) {
             activeUserID = activeUser.data.id
         }
-        const urls = "http://206.189.91.54/api/v1/users"
+        const urls = `${process.env.REACT_APP_SLACK_API}/api/v1/users`
         const responses = await fetch(urls,
             {
                 method: "GET",
@@ -21,31 +21,31 @@ const DirectMessages: FC<Props> = ({ activeUser }) => {
         const datas = await responses.json()
         let usersDetailsData: Array<object> = []
 
-        datas.data.forEach((element:{id:number}) => {
+        datas.data.forEach((element: { id: number }) => {
             async function sendDirectMessage() {
-                const responses = await fetch(`http://206.189.91.54/api/v1/messages?receiver_id=${element.id}&receiver_class=User`,
+                const responses = await fetch(`${process.env.REACT_APP_SLACK_API}/api/v1/messages?receiver_id=${element.id}&receiver_class=User`,
                     {
                         method: "GET",
                         headers: activeUser.headers,
                     })
                 const userData = await responses.json()
-                const findData = userData.data.some((xdata:{sender:{id:number}; receiver:{id:number}}) => xdata.sender.id === activeUserID || xdata.receiver.id === activeUserID)
+                const findData = userData.data.some((xdata: { sender: { id: number }; receiver: { id: number } }) => xdata.sender.id === activeUserID || xdata.receiver.id === activeUserID)
                 if (findData) {
-                    const mapUserData:userDetails = userData.data.map((element:{body:string;created_at:string;sender:{ id:number}}) => {
+                    const mapUserData: userDetails = userData.data.map((element: { body: string; created_at: string; sender: { id: number } }) => {
                         return {
                             message: element.body,
                             time: element.created_at,
                             userID: element.sender.id
                         }
                     })
-                    usersDetailsData.push({[element.id]: mapUserData})
+                    usersDetailsData.push({ [element.id]: mapUserData })
                 }
             }
             sendDirectMessage()
         })
         setUserDMDetails(usersDetailsData)
     }
-  
+
     const listDMs = userDMDetails.length === 0
         ?
         <div>

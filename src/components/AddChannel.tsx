@@ -19,7 +19,7 @@ const AddChannel: FC<Props> = ({ activeUser, activeUserChannels, setActiveUserCh
             "name": channelNameInput,
             "user_ids": [activeUser.data!.id]
         }
-        const url = "http://206.189.91.54/api/v1/channels"
+        const url = `${process.env.REACT_APP_SLACK_API}/api/v1/channels`
         const response = await fetch(url,
             {
                 method: "POST",

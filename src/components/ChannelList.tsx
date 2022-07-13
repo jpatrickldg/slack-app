@@ -18,7 +18,7 @@ const ChannelList: FC<Props> = ({ activeUser, activeUserChannels, setActiveUserC
 
     useEffect(() => {
         async function getUserChannelsOnLoad() {
-            const url = "http://206.189.91.54/api/v1/channels"
+            const url = `${process.env.REACT_APP_SLACK_API}/api/v1/channels`
             const response = await fetch(url,
                 {
                     headers: activeUser.headers
@@ -70,7 +70,7 @@ const ChannelList: FC<Props> = ({ activeUser, activeUserChannels, setActiveUserC
                     <HiPlus title="Add Channel" onClick={showAddChannelModule} className='text-2xl cursor-pointer text-green-500 hover:text-green-400' />
                 </div>
             </div>
-            <div className='px-2'>
+            <div className='h-[85%] px-2 overflow-y-auto scroll-smooth scrollbar-thin scrollbar-track-gray-800 scrollbar-thumb-gray-900'>
                 {listChannels}
             </div>
             <div>
