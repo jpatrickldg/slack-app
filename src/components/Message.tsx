@@ -1,6 +1,7 @@
 import { FC, useEffect, useRef, useState } from 'react'
 import { User, MessageData } from '../Types'
 import { Avatar } from '@mui/material'
+import dayjs from 'dayjs'
 
 interface Props {
     activeUser: User
@@ -67,7 +68,7 @@ const Message: FC<Props> = ({ activeUser, channelID, message }) => {
                             <div>
                                 <div className='flex gap-2 items-center mb-1'>
                                     <span className={message.sender.id === activeUser.data?.id ? 'text-blue-400' : ''}>{message.sender.uid} | {message.sender.id}</span>
-                                    <span className='text-xs text-gray-500'>{message.created_at.substring(0, 10)}</span>
+                                    <span className='text-xs text-gray-500'>{(dayjs(message.created_at).format('M-D h:mm A')).toString()}</span>
                                 </div>
                                 <div>
                                     <span className='font-light'>{message.body}</span>

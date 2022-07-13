@@ -79,7 +79,7 @@ const Content: FC<Props> = ({ activeUser, setChannelName, channelID, channelName
                     <div className='h-full grow bg-gray-700 text-gray-100 flex flex-col justify-between'>
                         <div className='w-full h-[5%] flex justify-between items-center bg-gray-700 p-3 border-b-2 border-gray-900' >
                             <div className='flex items-center gap-1'>
-                                <HiOutlineHashtag className='text-2xl' />
+                                <HiOutlineHashtag className='text-2xl text-yellow-500' />
                                 <span className='font-bold text-xl'>{channelName}</span>
                             </div>
                             <div className='flex font-extrabold text-2xl gap-3 text-gray-500 relative'>
