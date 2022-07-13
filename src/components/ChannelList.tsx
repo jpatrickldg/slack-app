@@ -45,7 +45,7 @@ const ChannelList: FC<Props> = ({ activeUser, activeUserChannels, setActiveUserC
         activeUserChannels.map(e => {
             return (
                 <button key={e.id} onClick={() => setChannelDetails(e.name, e.id)} className={e.name === channelName ? 'flex items-center gap-1 hover:bg-gray-700 w-full hover:rounded-md h-9 text-left px-1 cursor-pointer bg-gray-700 rounded-md mb-1' : 'flex items-center gap-1 hover:bg-gray-700 w-full hover:rounded-md h-9 text-left px-1 cursor-pointer mb-1'}>
-                    <HiOutlineHashtag className='text-lg' />
+                    <HiOutlineHashtag className='text-lg text-yellow-500' />
                     <span>{e.name}</span>
                 </button>
             )
