@@ -43,3 +43,9 @@ export type UserRegistration = {
     password: string
     confirmPassword: string
 }
+
+export type userDetails = {
+    message: string
+    time: string
+    userID: number
+}

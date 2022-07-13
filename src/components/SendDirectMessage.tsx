@@ -16,15 +16,6 @@ const SendDirectMessage: FC<Props> = ({ activeUser, setShowDMModal }) => {
     async function sendDirectMessage() {
         const url = "http://206.189.91.54/api/v1/messages"
        
-        // const urls = "http://206.189.91.54/api/v1/messages?receiver_id=2216&receiver_class=User"
-        // const responses = await fetch(urls,
-        //     {
-        //         method: "GET",
-        //         headers: activeUser.headers,
-        //     })
-        // const datas = await responses.json()
-        // console.log(datas.data)
-
         const body = {
             "receiver_id": recipientID,
             "receiver_class": "User",

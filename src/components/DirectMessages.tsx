@@ -1,13 +1,11 @@
 import { FC, useState } from 'react'
-import { User } from '../Types'
-
+import { User,userDetails } from '../Types'
 interface Props {
     activeUser: User
 }
-
 const DirectMessages: FC<Props> = ({ activeUser }) => {
 
-    const [userIdArrays, setUserIdArrays] = useState<Array<any>>([])
+    const [userDMDetails, setUserDMDetails] = useState<Array<object>>([])
 
     async function getUserDMs() {
         let activeUserID: number
@@ -21,9 +19,9 @@ const DirectMessages: FC<Props> = ({ activeUser }) => {
                 headers: activeUser.headers,
             })
         const datas = await responses.json()
-        let database: Array<any> = []
-        // const aaaaray:Array<number> = [2216,2222,2215]
-        datas.data.forEach((element: any) => {
+        let usersDetailsData: Array<object> = []
+
+        datas.data.forEach((element:{id:number}) => {
             async function sendDirectMessage() {
                 const responses = await fetch(`http://206.189.91.54/api/v1/messages?receiver_id=${element.id}&receiver_class=User`,
                     {
@@ -31,55 +29,30 @@ const DirectMessages: FC<Props> = ({ activeUser }) => {
                         headers: activeUser.headers,
                     })
                 const userData = await responses.json()
-                const findData = userData.data.some((x: { sender: { id: number }; receiver: { id: number } }) => x.sender.id === activeUserID || x.receiver.id === activeUserID)
+                const findData = userData.data.some((xdata:{sender:{id:number}; receiver:{id:number}}) => xdata.sender.id === activeUserID || xdata.receiver.id === activeUserID)
                 if (findData) {
-                    const mapUserData = userData.data.map((element: { body: any }) => {
+                    const mapUserData:userDetails = userData.data.map((element:{body:string;created_at:string;sender:{ id:number}}) => {
                         return {
                             message: element.body,
-                            time: 10
+                            time: element.created_at,
+                            userID: element.sender.id
                         }
                     })
-
-                    database.push({ [element.id]: mapUserData })
+                    usersDetailsData.push({[element.id]: mapUserData})
                 }
-
             }
             sendDirectMessage()
         })
-        setUserIdArrays(database)
-
-
-        // const url = `http://206.189.91.54/api/v1/messages?receiver_id=${activeUserID}&receiver_class=User`
-        // const response = await fetch(url,
-        //     {
-        //         method: "GET",
-        //         headers: activeUser.headers
-        //     })
-        // const data = await response.json()
-        // if (response.ok) {
-        //     console.log(data)
-        //     console.log(activeUserID)
-        // } else console.log(response)
+        setUserDMDetails(usersDetailsData)
     }
-    // userIdArrays.forEach((element: any) => {
-
-    //     async function getUserDMs() {
-    //         const response = await fetch(`http://206.189.91.54/api/v1/messages?receiver_id=${element}&receiver_class=User`,
-    //             {
-    //                 method: "GET",
-    //                 headers: activeUser.headers
-    //             })
-    //         const data = await response.json()
-    //        console.log(data.data.body)
-    //     }
-    // })
-    const listDMs = userIdArrays.length === 0
+  
+    const listDMs = userDMDetails.length === 0
         ?
         <div>
             <span>User has no DM</span>
         </div>
         :
-        userIdArrays.map(element => {
+        userDMDetails.map(element => {
             let userID = Object.keys(element)[0]
             return (
                 <><button>
@@ -87,7 +60,7 @@ const DirectMessages: FC<Props> = ({ activeUser }) => {
                 </button><br /></>
             )
         })
-    console.log(userIdArrays)
+    console.log(userDMDetails)
 
     return (
         <div>
