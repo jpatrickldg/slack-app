@@ -64,18 +64,24 @@ const AllUsersList: FC<Props> = ({ activeUser, setChannelID, setChannelName, set
         } else if (e.uid.toLowerCase().includes(searchTerm.toLowerCase())) {
             return e
         } else return null
-
-    }).map(e => {
-        return (
-            <div key={e.id} className={e.id === userID ? 'bg-gray-700 rounded-md w-full flex items-center gap-2 hover:bg-gray-700 hover:rounded-md min-h-8 text-left p-1 cursor-pointer mb-1' : 'w-full flex items-center gap-2 hover:bg-gray-700 hover:rounded-md min-h-8 text-left p-1 cursor-pointer mb-1'} onClick={() => setContentID(e.id, e.uid)}>
-                <Avatar sx={{ width: 20, height: 20, fontSize: 16, bgcolor: 'gray', fontFamily: 'monospace' }}>
-                    {e.uid.charAt(0).toUpperCase()}
-                </Avatar>
-                <span className='break-all'>{e.uid.substring(0, e.uid.indexOf('@'))}</span>
-                <span className='text-xs text-gray-500'>{e.id}</span>
-            </div>
-        )
     })
+
+    const usersComponent = listUsers.length === 0 ?
+        <div>
+            <span>No user found</span>
+        </div>
+        :
+        listUsers.map(e => {
+            return (
+                <div key={e.id} className={e.id === userID ? 'bg-gray-700 rounded-md w-full flex items-center gap-2 hover:bg-gray-700 hover:rounded-md min-h-8 text-left p-1 cursor-pointer mb-1' : 'w-full flex items-center gap-2 hover:bg-gray-700 hover:rounded-md min-h-8 text-left p-1 cursor-pointer mb-1'} onClick={() => setContentID(e.id, e.uid)}>
+                    <Avatar sx={{ width: 20, height: 20, fontSize: 16, bgcolor: 'gray', fontFamily: 'monospace' }}>
+                        {e.uid.charAt(0).toUpperCase()}
+                    </Avatar>
+                    <span className='break-all'>{e.uid.substring(0, e.uid.indexOf('@'))}</span>
+                    <span className='text-xs text-gray-500'>{e.id}</span>
+                </div>
+            )
+        })
 
     return (
         <Fragment>
@@ -86,16 +92,16 @@ const AllUsersList: FC<Props> = ({ activeUser, setChannelID, setChannelName, set
             <div className='px-2 mb-2 h-[8%]'>
                 <input type="text" name="searchTerm" id="searchTerm" placeholder='Search User' onChange={e => setSearchTerm(e.target.value)} className='text-gray-100 w-full bg-gray-900 h-8 rounded-md p-2  focus:outline-none placeholder:text-gray-500' />
             </div>
-            {isLoading ?
-                <div className='h-full w-full flex items-center justify-center'>
-                    <div className='border-8 border-gray-500 border-t-8 border-t-gray-800 rounded-[50%] h-10 w-10 overflow-hidden animate-spin'></div>
-                </div>
-                :
-                <Fragment>
-                    <div className='px-2 h-[84%%] overflow-y-auto overflow-x-hidden scroll-smooth scrollbar-thin scrollbar-track-gray-700 scrollbar-thumb-gray-900'>
-                        {listUsers}
+            <div className='px-2 h-[84%] overflow-y-auto overflow-x-hidden scroll-smooth scrollbar-thin scrollbar-track-gray-700 scrollbar-thumb-gray-900'>
+                {isLoading ?
+                    <div className='h-full w-full flex items-center justify-center'>
+                        <div className='border-8 border-gray-500 border-t-8 border-t-gray-800 rounded-[50%] h-10 w-10 overflow-hidden animate-spin'></div>
                     </div>
-                </Fragment>}
+                    :
+                    <Fragment>
+                        {usersComponent}
+                    </Fragment>}
+            </div>
             {showDMModal && <SendDirectMessage activeUser={activeUser} setShowDMModal={setShowDMModal} />}
 
         </Fragment>
