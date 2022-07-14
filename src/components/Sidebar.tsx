@@ -32,17 +32,17 @@ const Sidebar: FC<Props> = ({ activeUser, setActiveUser, activeUserChannels, set
 
     return (
         <div className='h-full basis-[180px] shrink-0 bg-gray-800 text-gray-100 flex flex-col'>
-            <div className='basis-[46%] overflow-y-auto scroll-smooth scrollbar-thin scrollbar-track-gray-800 scrollbar-thumb-gray-900'>
+            <div className='h-[46%]'>
                 <ChannelList activeUser={activeUser} activeUserChannels={activeUserChannels} setActiveUserChannels={setActiveUserChannels} setChannelName={setChannelName} setChannelID={setChannelID} channelName={channelName} channelID={channelID} />
             </div>
-            <div className='basis-[46%] overflow-y-auto scroll-smooth scrollbar-thin scrollbar-track-gray-800 scrollbar-thumb-gray-900'>
+            <div className='h-[46%] overflow-y-auto scroll-smooth scrollbar-thin scrollbar-track-gray-800 scrollbar-thumb-gray-900'>
                 <div className='flex justify-between items-center mb-2 p-3'>
                     <span className='font-bold text-sm uppercase'>Messages</span>
                     <HiOutlinePencilAlt title='New Message' onClick={displayDMModal} className='text-2xl text-green-500 cursor-pointer hover:text-green-400' />
                 </div>
                 <DirectMessages activeUser={activeUser} />
             </div>
-            <div className='basis-[8%] p-3 flex justify-between items-center'>
+            <div className='h-[8%] p-3 flex justify-between items-center'>
                 <div className='flex flex-col'>
                     <span className='uppercase font-bold'>{activeUser.data!.uid.substring(0, activeUser.data?.uid.indexOf('@'))}</span>
                     <span className='text-sm'>#{activeUser.data!.id}</span>

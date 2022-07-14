@@ -14,7 +14,7 @@ const Register: FC = () => {
             "password": userDetails.password,
             "password_confirmation": userDetails.confirmPassword
         }
-        const url = "http://206.189.91.54/api/v1/auth/"
+        const url = `${process.env.REACT_APP_SLACK_API}/api/v1/auth/`
         const response = await fetch(url,
             {
                 method: "POST",

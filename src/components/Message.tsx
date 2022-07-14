@@ -14,7 +14,7 @@ const Message: FC<Props> = ({ activeUser, channelID, message }) => {
     const messagesEndRef = useRef<null | HTMLDivElement>(null)
 
     async function getMessages() {
-        const url = `http://206.189.91.54/api/v1/messages?receiver_id=${channelID}&receiver_class=Channel`
+        const url = `${process.env.REACT_APP_SLACK_API}/api/v1/messages?receiver_id=${channelID}&receiver_class=Channel`
         const response = await fetch(url,
             {
                 method: "GET",

@@ -20,7 +20,7 @@ const Login: FC<Props> = ({ activeUser, setActiveUser }) => {
             "email": email,
             "password": password
         }
-        const url = "http://206.189.91.54/api/v1/auth/sign_in/"
+        const url = `${process.env.REACT_APP_SLACK_API}/api/v1/auth/sign_in/`
         const response = await fetch(url,
             {
                 method: "POST",
