@@ -69,7 +69,7 @@ const ChannelList: FC<Props> = ({ activeUser, activeUserChannels, setActiveUserC
         <Fragment>
             <div className='flex justify-between items-center p-3 mb-2 h-[8%]'>
                 <div>
-                    <span className='font-bold text-sm uppercase'>Channels</span>
+                    <span className='font-bold text-sm uppercase underline tracking-widest'>Channels</span>
                 </div>
                 <div>
                     <HiPlus title="Add Channel" onClick={showAddChannelModule} className='text-2xl cursor-pointer text-green-500 hover:text-green-400' />

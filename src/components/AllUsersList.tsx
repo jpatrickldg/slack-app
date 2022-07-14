@@ -86,7 +86,7 @@ const AllUsersList: FC<Props> = ({ activeUser, setChannelID, setChannelName, set
     return (
         <Fragment>
             <div className='flex justify-between items-center p-3 mb-2 h-[8%]'>
-                <span className='font-bold text-sm uppercase'>Messages</span>
+                <span className='font-bold text-sm uppercase underline tracking-widest'>Messages</span>
                 <HiOutlinePencilAlt title='New Message' onClick={displayDMModal} className='text-2xl text-green-500 cursor-pointer hover:text-green-400' />
             </div>
             <div className='px-2 mb-2 h-[8%]'>
