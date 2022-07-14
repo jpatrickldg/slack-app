@@ -33,7 +33,7 @@ const Sidebar: FC<Props> = ({ activeUser, setActiveUser, activeUserChannels, set
             <div className='h-[46%] flex flex-col justify-center'>
                 <ChannelList activeUser={activeUser} activeUserChannels={activeUserChannels} setActiveUserChannels={setActiveUserChannels} setChannelName={setChannelName} setChannelID={setChannelID} channelName={channelName} channelID={channelID} setUserID={setUserID} />
             </div>
-            <div className='h-[46%] flex flex-col justify-center'>
+            <div className='h-[46%] flex flex-col justify-center shrink-0'>
                 <AllUsersList activeUser={activeUser} setUserID={setUserID} setChannelName={setChannelName} setChannelID={setChannelID} setUserName={setUserName} userID={userID} />
             </div>
             <div className='h-[8%] p-3 flex justify-between items-center'>

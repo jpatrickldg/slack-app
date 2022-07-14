@@ -30,16 +30,6 @@ const Content: FC<Props> = ({ activeUser, setChannelName, setChannelID, channelI
     const [displayMembers, setDisplayMembers] = useState<boolean>(false)
     const [activeChannelMembersCount, setActiveChannelMemberCount] = useState<number | null>(null)
 
-    const displayAddMember = () => {
-        setShowAddMember(true)
-    }
-    const closeContentBox = () => {
-        setUserID(0)
-        setUserName('')
-        setChannelID(0)
-        setChannelName('')
-    }
-
     async function getChannelDetails() {
         const url = `${process.env.REACT_APP_SLACK_API}/api/v1/channels/${channelID}`
         const response = await fetch(url,
@@ -70,6 +60,17 @@ const Content: FC<Props> = ({ activeUser, setChannelName, setChannelID, channelI
         channelName && getChannelDetails()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [channelID, activeChannelMembersCount])
+
+    const displayAddMember = () => {
+        setShowAddMember(true)
+    }
+    const closeContentBox = () => {
+        setUserID(0)
+        setUserName('')
+        setChannelID(0)
+        setChannelName('')
+        setDisplayMembers(false)
+    }
 
     const displayChannelDetails = () => {
         setShowChannelDetails(true)
