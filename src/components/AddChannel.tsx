@@ -1,6 +1,7 @@
 import { FC, useState, ChangeEvent } from 'react'
-import { Channel, User } from '../Types'
-import { HiX } from "react-icons/hi";
+import { User } from '../types/user'
+import { Channel } from '../types/channel'
+import { HiX } from 'react-icons/hi'
 
 interface Props {
     activeUser: User

@@ -1,20 +1,27 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, Fragment, useEffect, useState } from 'react'
 import Message from './Message'
 import AddChannelMember from './AddChannelMember'
 import SendMessage from './SendMessage'
 import ChannelDetails from './ChannelDetails'
 import ChannelMembers from './ChannelMembers'
-import { Channel, MemberID, User } from '../Types'
+import { User } from '../types/user'
+import { Channel } from '../types/channel'
+import { MemberID } from '../types/memberID'
 import { HiOutlineHashtag, HiOutlineUserAdd, HiX, HiOutlineInformationCircle, HiOutlineUsers } from "react-icons/hi";
-
+import { Avatar } from '@mui/material'
 interface Props {
     activeUser: User
     channelName: string
+    setChannelID: (val: number) => void
     channelID: number | null
     setChannelName: (val: string) => void
+    userID: number
+    setUserID: (val: number) => void
+    userName: string
+    setUserName: (val: string) => void
 }
 
-const Content: FC<Props> = ({ activeUser, setChannelName, channelID, channelName }) => {
+const Content: FC<Props> = ({ activeUser, setChannelName, setChannelID, channelID, channelName, userID, setUserID, userName, setUserName }) => {
     const [message, setMessage] = useState<string>('')
     const [showAddMember, setShowAddMember] = useState<boolean>(false)
     const [selectedChannelMembers, setSelectedChannelMembers] = useState<Array<number>>([])
@@ -22,10 +29,14 @@ const Content: FC<Props> = ({ activeUser, setChannelName, channelID, channelName
     const [showChannelDetails, setShowChannelDetails] = useState<boolean>(false)
     const [displayMembers, setDisplayMembers] = useState<boolean>(false)
     const [activeChannelMembersCount, setActiveChannelMemberCount] = useState<number | null>(null)
+
     const displayAddMember = () => {
         setShowAddMember(true)
     }
-    const closeChannel = () => {
+    const closeContentBox = () => {
+        setUserID(0)
+        setUserName('')
+        setChannelID(0)
         setChannelName('')
     }
 
@@ -73,11 +84,11 @@ const Content: FC<Props> = ({ activeUser, setChannelName, channelID, channelName
     }
 
     return (
-        <>
+        <Fragment>
             {channelName ?
-                <>
+                <Fragment>
                     <div className='h-full grow bg-gray-700 text-gray-100 flex flex-col justify-between'>
-                        <div className='w-full h-[5%] flex justify-between items-center bg-gray-700 p-3 border-b-2 border-gray-900' >
+                        <div className='w-full h-[6%] flex justify-between items-center bg-gray-700 p-3 border-b-2 border-gray-900' >
                             <div className='flex items-center gap-1'>
                                 <HiOutlineHashtag className='text-2xl text-yellow-500' />
                                 <span className='font-bold text-xl'>{channelName}</span>
@@ -88,22 +99,22 @@ const Content: FC<Props> = ({ activeUser, setChannelName, channelID, channelName
                                 </div>
                                 <HiOutlineUsers title='View Members' onClick={toggleMembersDisplay} className='cursor-pointer hover:text-green-400 text-green-500' />
                                 <HiOutlineUserAdd title='Add Member' onClick={displayAddMember} className='cursor-pointer hover:text-green-400 text-green-500' />
-                                <HiX title='Close' onClick={closeChannel} className='cursor-pointer hover:text-red-400 text-red-500' />
+                                <HiX title='Close' onClick={closeContentBox} className='cursor-pointer hover:text-red-400 text-red-500' />
                                 {showChannelDetails && selectedChannelDetails ? <ChannelDetails selectedChannelDetails={selectedChannelDetails} selectedChannelMembers={selectedChannelMembers} /> : ''}
                             </div>
                         </div>
-                        <div className='w-full h-[95%] flex'>
+                        <div className='w-full h-[94%] flex'>
                             <div className='h-full grow flex flex-col p-2'>
                                 <div className='w-full h-[93%] overflow-auto grow-0 scroll-smooth scrollbar-thin scrollbar-track-gray-800 scrollbar-thumb-gray-900' >
-                                    <Message activeUser={activeUser} channelID={channelID} message={message} />
+                                    <Message activeUser={activeUser} channelID={channelID} message={message} userID={userID} />
                                 </div>
                                 <div className='w-full mb-0 px-2 h-[7%]  flex items-center'>
-                                    <SendMessage activeUser={activeUser} channelID={channelID} message={message} setMessage={setMessage} />
+                                    <SendMessage activeUser={activeUser} channelID={channelID} message={message} setMessage={setMessage} userID={userID} />
                                 </div>
                             </div>
                             {displayMembers &&
                                 <div className='h-full basis-[150px] bg-gray-800 text-gray-100 shrink-0'>
-                                    <ChannelMembers selectedChannelMembers={selectedChannelMembers} channelName={channelName} activeUser={activeUser} />
+                                    {selectedChannelDetails && <ChannelMembers selectedChannelMembers={selectedChannelMembers} selectedChannelDetails={selectedChannelDetails} userID={userID} setUserID={setUserID} setChannelID={setChannelID} setChannelName={setChannelName} setUserName={setUserName} />}
                                 </div>
                             }
                         </div>
@@ -111,16 +122,44 @@ const Content: FC<Props> = ({ activeUser, setChannelName, channelID, channelName
                             {showAddMember && <AddChannelMember activeUser={activeUser} channelID={channelID} setShowAddMember={setShowAddMember} setActiveChannelMemberCount={setActiveChannelMemberCount} />}
                         </div>
                     </div>
-                </>
+                </Fragment>
                 :
-                <div className='w-full h-full flex items-center justify-center bg-gray-700'>
-                    <div className='text-center'>
-                        <h2 className='text-3xl font-bold text-gray-100'>Welcome to Avion Chat</h2>
-                        <span className='text-gray-500'>Check on your channels on the left to browse messages!</span>
+                userID ?
+                    <Fragment>
+                        <div className='h-full grow bg-gray-700 text-gray-100 flex flex-col justify-between'>
+                            <div className='w-full h-[6%] flex justify-between items-center bg-gray-700 p-3 border-b-2 border-gray-900' >
+                                <div className='flex items-center gap-1'>
+                                    <Avatar sx={{ width: 25, height: 25 }}>
+                                        {userName ? userName.charAt(0).toUpperCase() : userID.toString().charAt(0)}
+                                    </Avatar>
+                                    {userName ? <span className='text-xl font-bold'>{userName} | {userID}</span> : <span className='font-bold text-xl uppercase'>User #{userID}</span>}
+
+                                </div>
+                                <div className='flex font-extrabold text-2xl gap-3 text-gray-500 relative'>
+                                    <HiX title='Close' onClick={closeContentBox} className='cursor-pointer hover:text-red-400 text-red-500' />
+                                </div>
+                            </div>
+                            <div className='w-full h-[94%] flex'>
+                                <div className='h-full grow flex flex-col p-2'>
+                                    <div className='w-full h-[93%] overflow-auto grow-0 scroll-smooth scrollbar-thin scrollbar-track-gray-800 scrollbar-thumb-gray-900' >
+                                        <Message activeUser={activeUser} channelID={channelID} message={message} userID={userID} />
+                                    </div>
+                                    <div className='w-full mb-0 px-2 h-[7%]  flex items-center'>
+                                        <SendMessage activeUser={activeUser} channelID={channelID} message={message} setMessage={setMessage} userID={userID} />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </Fragment>
+                    :
+                    <div className='w-full h-full flex items-center justify-center bg-gray-700'>
+                        <div className='text-center'>
+                            <h2 className='text-3xl font-bold text-gray-100'>Welcome to Avion Chat</h2>
+                            <span className='text-gray-500'>Check on your channels on the left to browse messages!</span>
+                        </div>
                     </div>
-                </div>
             }
-        </>
+        </Fragment>
     )
 }
 

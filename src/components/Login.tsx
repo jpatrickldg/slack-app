@@ -1,7 +1,6 @@
 import { ChangeEvent, FC, useState, FormEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { User } from '../Types'
-
+import { User } from '../types/user'
 interface Props {
     activeUser: User
     setActiveUser: (val: object) => void

@@ -1,21 +1,21 @@
 import { ChangeEvent, FC, KeyboardEvent } from 'react'
-import { User } from '../Types'
-
+import { User } from '../types/user'
 interface Props {
     activeUser: User
     channelID: number | null
     message: string
     setMessage: (val: string) => void
+    userID: number
 }
 
-const SendMessage: FC<Props> = ({ activeUser, channelID, message, setMessage }) => {
+const SendMessage: FC<Props> = ({ activeUser, channelID, message, setMessage, userID }) => {
 
     async function sendMessage(e: KeyboardEvent<HTMLInputElement>) {
         if (e.key === 'Enter') {
             console.log('enter')
             const body = {
-                "receiver_id": channelID,
-                "receiver_class": "Channel",
+                "receiver_id": channelID ? channelID : userID,
+                "receiver_class": channelID ? "Channel" : "User",
                 "body": message
             }
             const url = `${process.env.REACT_APP_SLACK_API}/api/v1/messages`

@@ -1,13 +1,11 @@
 import { FC } from 'react'
-import { Channel } from '../Types'
-
+import { Channel } from '../types/channel'
 interface Props {
     selectedChannelDetails: Channel
     selectedChannelMembers: Array<number>
 }
 
 const ChannelDetails: FC<Props> = ({ selectedChannelDetails, selectedChannelMembers }) => {
-
     selectedChannelMembers.map(e => {
         return (
             <div key={e}>
