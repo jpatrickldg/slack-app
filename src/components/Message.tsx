@@ -56,9 +56,9 @@ const Message: FC<Props> = ({ activeUser, channelID, message, userID }) => {
 
     const checkMessages = () => {
         if (messageDetails.length !== 0) {
-            const listMessages = messageDetails.map((message, i) => {
+            const listMessages = messageDetails.map((message, i, messageDetails) => {
                 return (
-                    <div key={i} className='hover:bg-gray-800 p-2'>
+                    <div key={i} ref={messageDetails.length - 1 === i ? messagesEndRef : null} className='hover:bg-gray-800 p-2'>
                         <div className='flex gap-2'>
                             <div className='pt-1'>
                                 <Avatar className='bg-red-500' sx={{ width: 30, height: 30, bgcolor: message.sender.id === activeUser.data?.id ? 'cornflowerblue' : '' }}>
@@ -100,7 +100,7 @@ const Message: FC<Props> = ({ activeUser, channelID, message, userID }) => {
                 :
                 <Fragment>
                     {messagesComponent}
-                    < div ref={messagesEndRef}></div>
+                    {/* < div ref={messagesEndRef}></div> */}
                 </Fragment>
             }
         </Fragment >

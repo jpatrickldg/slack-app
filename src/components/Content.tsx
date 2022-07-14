@@ -88,7 +88,7 @@ const Content: FC<Props> = ({ activeUser, setChannelName, setChannelID, channelI
             {channelName ?
                 <Fragment>
                     <div className='h-full grow bg-gray-700 text-gray-100 flex flex-col justify-between'>
-                        <div className='w-full h-[5%] flex justify-between items-center bg-gray-700 p-3 border-b-2 border-gray-900' >
+                        <div className='w-full h-[6%] flex justify-between items-center bg-gray-700 p-3 border-b-2 border-gray-900' >
                             <div className='flex items-center gap-1'>
                                 <HiOutlineHashtag className='text-2xl text-yellow-500' />
                                 <span className='font-bold text-xl'>{channelName}</span>
@@ -103,7 +103,7 @@ const Content: FC<Props> = ({ activeUser, setChannelName, setChannelID, channelI
                                 {showChannelDetails && selectedChannelDetails ? <ChannelDetails selectedChannelDetails={selectedChannelDetails} selectedChannelMembers={selectedChannelMembers} /> : ''}
                             </div>
                         </div>
-                        <div className='w-full h-[95%] flex'>
+                        <div className='w-full h-[94%] flex'>
                             <div className='h-full grow flex flex-col p-2'>
                                 <div className='w-full h-[93%] overflow-auto grow-0 scroll-smooth scrollbar-thin scrollbar-track-gray-800 scrollbar-thumb-gray-900' >
                                     <Message activeUser={activeUser} channelID={channelID} message={message} userID={userID} />
@@ -127,9 +127,9 @@ const Content: FC<Props> = ({ activeUser, setChannelName, setChannelID, channelI
                 userID ?
                     <Fragment>
                         <div className='h-full grow bg-gray-700 text-gray-100 flex flex-col justify-between'>
-                            <div className='w-full h-[5%] flex justify-between items-center bg-gray-700 p-3 border-b-2 border-gray-900' >
+                            <div className='w-full h-[6%] flex justify-between items-center bg-gray-700 p-3 border-b-2 border-gray-900' >
                                 <div className='flex items-center gap-1'>
-                                    <Avatar sx={{ width: 30, height: 30 }}>
+                                    <Avatar sx={{ width: 25, height: 25 }}>
                                         {userName ? userName.charAt(0).toUpperCase() : userID.toString().charAt(0)}
                                     </Avatar>
                                     {userName ? <span className='text-xl font-bold'>{userName} | {userID}</span> : <span className='font-bold text-xl uppercase'>User #{userID}</span>}
@@ -139,7 +139,7 @@ const Content: FC<Props> = ({ activeUser, setChannelName, setChannelID, channelI
                                     <HiX title='Close' onClick={closeContentBox} className='cursor-pointer hover:text-red-400 text-red-500' />
                                 </div>
                             </div>
-                            <div className='w-full h-[95%] flex'>
+                            <div className='w-full h-[94%] flex'>
                                 <div className='h-full grow flex flex-col p-2'>
                                     <div className='w-full h-[93%] overflow-auto grow-0 scroll-smooth scrollbar-thin scrollbar-track-gray-800 scrollbar-thumb-gray-900' >
                                         <Message activeUser={activeUser} channelID={channelID} message={message} userID={userID} />

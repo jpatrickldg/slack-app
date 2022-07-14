@@ -67,7 +67,7 @@ const AllUsersList: FC<Props> = ({ activeUser, setChannelID, setChannelName, set
 
     }).map(e => {
         return (
-            <div className={e.id === userID ? 'bg-gray-700 rounded-md w-full flex items-center gap-2 hover:bg-gray-700 hover:rounded-md min-h-8 text-left p-1 cursor-pointer mb-1' : 'w-full flex items-center gap-2 hover:bg-gray-700 hover:rounded-md min-h-8 text-left p-1 cursor-pointer mb-1'} onClick={() => setContentID(e.id, e.uid)}>
+            <div key={e.id} className={e.id === userID ? 'bg-gray-700 rounded-md w-full flex items-center gap-2 hover:bg-gray-700 hover:rounded-md min-h-8 text-left p-1 cursor-pointer mb-1' : 'w-full flex items-center gap-2 hover:bg-gray-700 hover:rounded-md min-h-8 text-left p-1 cursor-pointer mb-1'} onClick={() => setContentID(e.id, e.uid)}>
                 <Avatar sx={{ width: 20, height: 20, fontSize: 16, bgcolor: 'gray', fontFamily: 'monospace' }}>
                     {e.uid.charAt(0).toUpperCase()}
                 </Avatar>
