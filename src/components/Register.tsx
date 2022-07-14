@@ -1,9 +1,8 @@
 import { ChangeEvent, FC, useState, FormEvent } from 'react'
-import { UserRegistration } from '../Types'
+import { UserRegistrationDetails } from '../types/userRegistrationDetails'
 
 const Register: FC = () => {
-
-    const [userDetails, setUserDetails] = useState<UserRegistration>({ email: '', password: '', confirmPassword: '' })
+    const [userDetails, setUserDetails] = useState<UserRegistrationDetails>({ email: '', password: '', confirmPassword: '' })
     const [successNotif, setSuccessNotif] = useState<string>('')
     const [notif, setNotif] = useState<string>('')
 

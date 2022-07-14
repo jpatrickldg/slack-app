@@ -1,13 +1,24 @@
-import { FC } from 'react'
-import { User } from '../Types'
-
+import { FC, Fragment } from 'react'
+import { Channel } from '../types/channel'
 interface Props {
     selectedChannelMembers: Array<number>
-    channelName: string
-    activeUser: User
+    selectedChannelDetails: Channel
+    userID: number
+    setUserID: (val: number) => void
+    setChannelName: (val: string) => void
+    setChannelID: (val: number) => void
+    setUserName: (val: string) => void
 }
 
-const ChannelMembers: FC<Props> = ({ selectedChannelMembers, channelName, activeUser }) => {
+const ChannelMembers: FC<Props> = ({ selectedChannelMembers, selectedChannelDetails, setUserID, setChannelID, setChannelName, setUserName }) => {
+    const setContentID = (e: number) => {
+        setChannelID(0)
+        setChannelName('')
+        setUserName('')
+        setUserID(e)
+        console.log(e)
+    }
+
     const listMembers = selectedChannelMembers.map(e => {
         if (selectedChannelMembers.length < 2) {
             return (
@@ -15,9 +26,9 @@ const ChannelMembers: FC<Props> = ({ selectedChannelMembers, channelName, active
                     <span>No Members</span>
                 </div>
             )
-        } else if (e !== activeUser.data!.id) {
+        } else if (e !== selectedChannelDetails.owner_id) {
             return (
-                <div key={e} className='px-3'>
+                <div key={e} onClick={() => setContentID(e)} className='px-3 cursor-pointer hover:underline'>
                     <span>User #{e}</span>
                 </div>
             )
@@ -25,18 +36,18 @@ const ChannelMembers: FC<Props> = ({ selectedChannelMembers, channelName, active
     })
 
     return (
-        <>
+        <Fragment>
             <div className='px-3 text-sm font-bold uppercase mt-3'>
                 <span>Admin</span>
             </div>
-            <div className='px-3 mb-4'>
-                <span>User #{activeUser.data?.id}</span>
+            <div className='px-3 mb-4 cursor-pointer hover:underline' onClick={() => setContentID(selectedChannelDetails.owner_id)}>
+                <span>User #{selectedChannelDetails.owner_id}</span>
             </div>
             <div className='px-3 text-sm font-bold uppercase'>
                 <span>Members</span>
             </div>
             {listMembers}
-        </>
+        </Fragment>
     )
 }
 

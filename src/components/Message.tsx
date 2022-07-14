@@ -1,20 +1,22 @@
-import { FC, useEffect, useRef, useState } from 'react'
-import { User, MessageData } from '../Types'
+import { FC, Fragment, useEffect, useRef, useState } from 'react'
+import { User } from '../types/user'
+import { MessageData } from '../types/messageData'
 import { Avatar } from '@mui/material'
 import dayjs from 'dayjs'
-
 interface Props {
     activeUser: User
     channelID: number | null
     message: string
+    userID: number
 }
 
-const Message: FC<Props> = ({ activeUser, channelID, message }) => {
+const Message: FC<Props> = ({ activeUser, channelID, message, userID }) => {
     const [messageDetails, setMessageDetails] = useState<MessageData[]>([])
     const messagesEndRef = useRef<null | HTMLDivElement>(null)
+    const [isLoading, setIsLoading] = useState<boolean>(true)
 
     async function getMessages() {
-        const url = `${process.env.REACT_APP_SLACK_API}/api/v1/messages?receiver_id=${channelID}&receiver_class=Channel`
+        const url = `${process.env.REACT_APP_SLACK_API}/api/v1/messages?receiver_id=${channelID ? channelID : userID}&receiver_class=${channelID ? 'Channel' : 'User'}`
         const response = await fetch(url,
             {
                 method: "GET",
@@ -27,6 +29,7 @@ const Message: FC<Props> = ({ activeUser, channelID, message }) => {
             // console.log(activeUser)
             // console.log(data.data)
             // console.log(activeUser.data)
+            setIsLoading(false)
             let tempMessageDetails: Array<MessageData> = []
             data.data.forEach((e: MessageData) => {
                 tempMessageDetails.push(e)
@@ -41,7 +44,7 @@ const Message: FC<Props> = ({ activeUser, channelID, message }) => {
         return () => clearInterval(interval)
         // getMessages()
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [channelID, message])
+    }, [channelID, message, userID])
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -49,16 +52,13 @@ const Message: FC<Props> = ({ activeUser, channelID, message }) => {
 
     useEffect(() => {
         scrollToBottom()
-        // scrollToBottom()
     }, [message])
 
     const checkMessages = () => {
-        // const filteredArray = messageDetails.filter(message => message.receiver.id === channelID)
-
         if (messageDetails.length !== 0) {
-            const listMessages = messageDetails.map(message => {
+            const listMessages = messageDetails.map((message, i) => {
                 return (
-                    <div key={message.id} className='hover:bg-gray-800 p-2'>
+                    <div key={i} className='hover:bg-gray-800 p-2'>
                         <div className='flex gap-2'>
                             <div className='pt-1'>
                                 <Avatar className='bg-red-500' sx={{ width: 30, height: 30, bgcolor: message.sender.id === activeUser.data?.id ? 'cornflowerblue' : '' }}>
@@ -88,13 +88,22 @@ const Message: FC<Props> = ({ activeUser, channelID, message }) => {
             )
         }
     }
+
     const messagesComponent = checkMessages()
 
     return (
-        <>
-            {messagesComponent}
-            <div ref={messagesEndRef}></div>
-        </>
+        <Fragment>
+            {isLoading ?
+                <div className='h-full w-full flex items-center justify-center'>
+                    <div className='border-8 border-gray-500 border-t-8 border-t-gray-700 rounded-[50%] h-10 w-10 overflow-hidden animate-spin'></div>
+                </div>
+                :
+                <Fragment>
+                    {messagesComponent}
+                    < div ref={messagesEndRef}></div>
+                </Fragment>
+            }
+        </Fragment >
     )
 }
 
