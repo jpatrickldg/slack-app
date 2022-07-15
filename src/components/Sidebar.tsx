@@ -29,7 +29,7 @@ const Sidebar: FC<Props> = ({ activeUser, setActiveUser, activeUserChannels, set
     }
 
     return (
-        <div className='h-full basis-[200px] shrink-0 bg-gray-800 text-gray-100 flex flex-col pr-2'>
+        <div className='h-full basis-[220px] shrink-0 bg-gray-800 text-gray-100 flex flex-col pr-2'>
             <div className='h-[46%] flex flex-col justify-center'>
                 <ChannelList activeUser={activeUser} activeUserChannels={activeUserChannels} setActiveUserChannels={setActiveUserChannels} setChannelName={setChannelName} setChannelID={setChannelID} channelName={channelName} channelID={channelID} setUserID={setUserID} />
             </div>

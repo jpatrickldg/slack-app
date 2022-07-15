@@ -69,7 +69,7 @@ const AddChannel: FC<Props> = ({ activeUser, activeUserChannels, setActiveUserCh
                 </div>
                 <div className='mb-4'>
                     <span className='text-gray-400 uppercase font-bold text-xs'>Channel Name</span>
-                    <input type="text" name="channel-name" id="channel-name" onChange={handleChange} value={channelNameInput} className='text-gray-100 w-full bg-gray-900 h-10 rounded-md p-2  focus:outline-none' />
+                    <input type="text" name="channel-name" id="channel-name" onChange={handleChange} value={channelNameInput} spellCheck={false} className='text-gray-100 w-full bg-gray-900 h-10 rounded-md p-2  focus:outline-none' />
                 </div>
                 <div>
                     <button onClick={addChannel} className='text-gray-100 bg-indigo-500 w-full  h-10 rounded-md mb-2 cursor-pointer hover:bg-indigo-600 hover:border-0'>Create channel</button>

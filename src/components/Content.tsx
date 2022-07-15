@@ -129,7 +129,7 @@ const Content: FC<Props> = ({ activeUser, setChannelName, setChannelID, channelI
                     <Fragment>
                         <div className='h-full grow bg-gray-700 text-gray-100 flex flex-col justify-between'>
                             <div className='w-full h-[6%] flex justify-between items-center bg-gray-700 p-3 border-b-2 border-gray-900' >
-                                <div className='flex items-center gap-1'>
+                                <div className='flex items-center gap-2'>
                                     <Avatar sx={{ width: 25, height: 25, fontFamily: 'monospace' }}>
                                         {userName ? userName.charAt(0).toUpperCase() : userID.toString().charAt(0)}
                                     </Avatar>

@@ -3,7 +3,7 @@ import SendDirectMessage from './SendDirectMessage';
 import { User } from '../types/user'
 import { IDandUID } from '../types/idAndUid';
 import { Avatar } from '@mui/material'
-import { HiOutlinePencilAlt } from 'react-icons/hi'
+import { HiOutlinePencilAlt, HiX } from 'react-icons/hi'
 
 interface Props {
     activeUser: User
@@ -19,13 +19,6 @@ const AllUsersList: FC<Props> = ({ activeUser, setChannelID, setChannelName, set
     const [searchTerm, setSearchTerm] = useState<string>('')
     const [isLoading, setIsLoading] = useState<boolean>(true)
     const [showDMModal, setShowDMModal] = useState<boolean>(false)
-
-    const setContentID = (id: number, uid: string) => {
-        setChannelID(0)
-        setChannelName('')
-        setUserID(id)
-        setUserName(uid)
-    }
 
     async function getAllUsers() {
         const url = `${process.env.REACT_APP_SLACK_API}/api/v1/users`
@@ -54,10 +47,6 @@ const AllUsersList: FC<Props> = ({ activeUser, setChannelID, setChannelName, set
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
-    const displayDMModal = () => {
-        setShowDMModal(true)
-    }
-
     const listUsers = userDetails.filter(e => {
         if (searchTerm === '') {
             return e
@@ -83,14 +72,30 @@ const AllUsersList: FC<Props> = ({ activeUser, setChannelID, setChannelName, set
             )
         })
 
+    const setContentID = (id: number, uid: string) => {
+        setChannelID(0)
+        setChannelName('')
+        setUserID(id)
+        setUserName(uid)
+    }
+
+    const displayDMModal = () => {
+        setShowDMModal(true)
+    }
+
+    const clearSearchInput = () => {
+        setSearchTerm('')
+    }
+
     return (
         <Fragment>
             <div className='flex justify-between items-center p-3 mb-2 h-[8%]'>
                 <span className='font-bold text-sm uppercase underline tracking-widest'>Messages</span>
                 <HiOutlinePencilAlt title='New Message' onClick={displayDMModal} className='text-2xl text-green-500 cursor-pointer hover:text-green-400' />
             </div>
-            <div className='px-2 mb-2 h-[8%]'>
-                <input type="text" name="searchTerm" id="searchTerm" placeholder='Search User' onChange={e => setSearchTerm(e.target.value)} className='text-gray-100 w-full bg-gray-900 h-8 rounded-md p-2  focus:outline-none placeholder:text-gray-500' />
+            <div className='px-2 mb-2 h-[8%] relative'>
+                {searchTerm && <HiX onClick={clearSearchInput} className='absolute top-2 right-4 text-red-500 hover:text-red-400 cursor-pointer' />}
+                <input type="text" name="searchTerm" id="searchTerm" placeholder='Search User' onChange={e => setSearchTerm(e.target.value)} value={searchTerm} spellCheck={false} className='text-gray-100 w-full bg-gray-900 h-8 rounded-md p-2  focus:outline-none placeholder:text-gray-500' />
             </div>
             <div className='px-2 h-[84%] overflow-y-auto overflow-x-hidden scroll-smooth scrollbar-thin scrollbar-track-gray-700 scrollbar-thumb-gray-900'>
                 {isLoading ?
