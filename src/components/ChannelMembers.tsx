@@ -22,7 +22,7 @@ const ChannelMembers: FC<Props> = ({ selectedChannelMembers, selectedChannelDeta
     const listMembers = selectedChannelMembers.map(e => {
         if (selectedChannelMembers.length < 2) {
             return (
-                <div className='px-3'>
+                <div key={e} className='px-3'>
                     <span>No Members</span>
                 </div>
             )
