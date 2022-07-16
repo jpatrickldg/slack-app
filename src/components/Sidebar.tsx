@@ -1,8 +1,9 @@
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import { User } from '../types/user'
 import { Channel } from '../types/channel'
 import ChannelList from './ChannelList'
 import AllUsersList from './AllUsersList'
+import Logout from './Logout'
 import { HiOutlineLogout } from "react-icons/hi";
 import { useNavigate } from 'react-router-dom';
 interface Props {
@@ -21,11 +22,10 @@ interface Props {
 }
 
 const Sidebar: FC<Props> = ({ activeUser, setActiveUser, activeUserChannels, setActiveUserChannels, setChannelID, setChannelName, channelID, channelName, setUserID, setUserName, userID }) => {
-    const navigate = useNavigate()
+    const [showLogoutModal, setShowLogoutModal] = useState<boolean>(false)
 
-    const logout = () => {
-        setActiveUser({})
-        navigate('/')
+    const displayLogoutModal = () => {
+        setShowLogoutModal(true)
     }
 
     return (
@@ -42,8 +42,9 @@ const Sidebar: FC<Props> = ({ activeUser, setActiveUser, activeUserChannels, set
                     <span className='text-sm'>#{activeUser.data!.id}</span>
                 </div>
                 <div>
-                    <HiOutlineLogout title='Logout' onClick={logout} className='text-2xl cursor-pointer text-red-500 hover:text-red-400' />
+                    <HiOutlineLogout title='Logout' onClick={displayLogoutModal} className='text-2xl cursor-pointer text-red-500 hover:text-red-400' />
                 </div>
+                {showLogoutModal && <Logout setActiveUser={setActiveUser} setShowLogoutModal={setShowLogoutModal} />}
             </div>
         </div>
     )

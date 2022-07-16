@@ -75,11 +75,11 @@ const Login: FC<Props> = ({ activeUser, setActiveUser }) => {
                 <form onSubmit={submitHandler}>
                     <div className='mb-3'>
                         <span className='text-gray-400 uppercase font-bold text-xs'>Email</span>
-                        <input type="email" name="email" id="email" onChange={handleChange} className='text-gray-100 w-full bg-gray-900 h-10 rounded-md p-2  focus:outline-none' />
+                        <input type="email" name="email" id="email" onChange={handleChange} required className='text-gray-100 w-full bg-gray-900 h-10 rounded-md p-2  focus:outline-none' />
                     </div>
                     <div className='mb-6'>
                         <span className='text-gray-400 uppercase font-bold text-xs'>Password</span>
-                        <input type="password" name="password" id="password" onChange={handleChange} className='text-gray-100 w-full bg-gray-900 h-10 rounded-md p-2  focus:outline-none' />
+                        <input type="password" name="password" id="password" onChange={handleChange} required className='text-gray-100 w-full bg-gray-900 h-10 rounded-md p-2  focus:outline-none' />
                     </div>
                     <div>
                         <input type="submit" value="Login" className='text-gray-100 bg-indigo-500 w-full  h-10 rounded-md mb-2 cursor-pointer hover:bg-indigo-600 hover:border-0' />
