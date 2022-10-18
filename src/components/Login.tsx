@@ -44,7 +44,7 @@ const Login: FC<Props> = ({ activeUser, setActiveUser }) => {
                 "headers": userHeaders
             })
             console.log(activeUser)
-            navigate('/dashboard')
+            navigate('/slack-app/dashboard')
         } else {
             setNotif(data.errors)
             console.log(data.errors)
@@ -86,7 +86,7 @@ const Login: FC<Props> = ({ activeUser, setActiveUser }) => {
                     </div>
                 </form>
                 <div>
-                    <span className='text-gray-500 text-sm'>Not a member? <a href='/register' className='text-blue-400 hover:underline'>Register</a> </span>
+                    <span className='text-gray-500 text-sm'>Not a member? <a href='/slack-app/register' className='text-blue-400 hover:underline'>Register</a> </span>
                 </div>
             </div>
         </main>

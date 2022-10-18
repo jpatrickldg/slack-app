@@ -24,14 +24,14 @@ function App() {
     <Router>
       {Object.keys(activeUser).length !== 0 ?
         <Routes>
-          <Route path='/dashboard' element={<Dashboard activeUser={activeUser} setActiveUser={setActiveUser} />} />
+          <Route path='/slack-app/dashboard' element={<Dashboard activeUser={activeUser} setActiveUser={setActiveUser} />} />
           <Route path='*' element={<Navigate replace to='/dashboard' />} />
         </Routes>
         :
         <Routes>
-          <Route path='/' element={<Login activeUser={activeUser} setActiveUser={setActiveUser} />} />
-          <Route path='/register' element={<Register />} />
-          <Route path='*' element={<Navigate replace to='/' />} />
+          <Route path='/slack-app' element={<Login activeUser={activeUser} setActiveUser={setActiveUser} />} />
+          <Route path='/slack-app/register' element={<Register />} />
+          <Route path='*' element={<Navigate replace to='/slack-app' />} />
         </Routes>
       }
     </Router>
