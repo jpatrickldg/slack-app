@@ -1,6 +1,16 @@
-# Getting Started with Create React App
+# Slack Chat App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A simple chat app where users can have a private chat with another user or create and join a channel to chat with all the members. Click [here](https://jpatrickldg.github.io/slack-app) to view the live demo. :smile:
+
+![Screenshot](./screenshots/screenshot1.png)
+![Screenshot](./screenshots/screenshot2.png)
+![Screenshot](./screenshots/screenshot3.png)
+
+## Built With
+
+- [ReactJS](https://reactjs.org/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [TailwindCSS](https://tailwindcss.com/)
 
 ## Available Scripts
 
