@@ -1,6 +1,6 @@
 # Slack Chat App
 
-A simple chat app where users can have a private chat with another user or create and join a channel to chat with all the members. Click [here](https://jpatrickldg.github.io/slack-app) to view the live demo. :smile:
+A simple chat app where users can have a private chat with another user or create and join a channel to chat with all the members.
 
 ![Screenshot](./screenshots/screenshot1.png)
 ![Screenshot](./screenshots/screenshot2.png)
